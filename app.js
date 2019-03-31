@@ -55,7 +55,22 @@ app.get('Just check',(res,req)=>{
 app.get('/help/*', (req, res) => {
     res.send("No help article found")
 })
+app.get("/products",(req,res)=>{
+    if(!req.query.abhishek){
+        return res.send({
+            error:"Sorry you have to provide my surname"
+        })
+    }      //Checking whether it exists or not so that we can do stuff accodingly
+    console.log(req.query.abhishek) // Works when !req.query.abhishek Falsifies.
+    products=["agarwal","singhal","bansal"]
+    damdam=[]
+    damdam=products.filter((surname)=>{return surname==req.query.abhishek||surname=="agarwal"})
+    return res.send({
+         damdam
+    })
+})
 app.get('*',(req,res)=>{
+    // console.log(req.query.abhishek)
     res.send("No webpage found")
 })
 //Actually it checks for the webpages and thr routes in sequence and it begins from public folder, it is not found and then later it checks in one by one and as soon as any route is dound then it does not checks for further for the same route.
@@ -63,3 +78,9 @@ app.listen(3000,()=>{
     console.log("My first server is functioning")
 }) //We can use multiple listens on app but that is obviously of no use.
 
+// In the request we have query through which we can get whatever is written in after ? which tells the queries in the url.
+//SO if we type queries after url which is given by ? and then we have to do something according to it then we use req.query. If you know the property name, say search or smething like title.id etc, you can actually add them in you req.query.property_name and that will return you the value of that property.
+
+//There is an error of cannot set headers after they are sent to the client and this error comes when we are sending two or more requests to same port. Example app.get(" ",()=>{res.send("First")res.send("Second")})
+//So whenever such message comes check whether you are sending more than one request or receiving more than one response.
+//In such cases we can use return in first response like we did in products
