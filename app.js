@@ -1,6 +1,8 @@
 const path=require('path')
 const express=require("express")
 const hbs=require('hbs')
+const geocode=require('./utils/geocode')
+const forecast=require('./utils/forecast')
 
 const app=express()
 console.log(__dirname) // Helps to give the directoy info where app.js is present. It is present as a parameter to a function that is used to wrap our node.js functionalities.
@@ -42,9 +44,9 @@ app.get('',(req,res)=>
 app.get('/help', (req, res) => {
     res.render('help', { title: 'help', age: 18, name: "Abhishek"})
 })
-app.get('/weather',(req,res)=>{
-    res.render('weather', { title: "Weather", age: 20,name: "Abhishek"})
-})
+// app.get('/weather',(req,res)=>{
+//     res.render('weather', { title: "Weather", age: 20,name: "Abhishek"})
+// })
 app.get('/about',(req,res)=>{
     res.render('about', { title: 'About', name: "Abhishek"})
 })
@@ -54,6 +56,34 @@ app.get('Just check',(res,req)=>{
 })
 app.get('/help/*', (req, res) => {
     res.send("No help article found")
+})
+app.get("/weather",(req,res)=>{
+    if(!req.query.address)
+    {
+        return res.send({error:"You need to supply an address"})
+    }
+
+geocode(req.query.address,(error,{latitude, longitude, location}={})=>{//Addinf default parameters is very useful because suppose you are not getting any object, in that case such properties of undefined would not be extracted and that would return an error. TO protect yourself from it, you have to add a default parameter so that in case you are not getting an object, your server would not crash.
+if(error)
+return res.send({error:"There is no internet connection"})
+forecast(latitude,longitude,(error,data)=>{
+    if(error)
+    return res.send({error:"There is no internet connection"})
+    return res.send({
+        forecast:data,
+        location,
+        address:req.query.address
+    })
+})
+})
+
+
+
+    // console.log(req.query.address)
+    // res.send({
+    //     forecast:'It is very sunny outside',
+    //     location:req.query.address
+    // })
 })
 app.get("/products",(req,res)=>{
     if(!req.query.abhishek){
