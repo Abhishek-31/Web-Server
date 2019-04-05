@@ -4,7 +4,7 @@ const geoCode = (location, callback) => {
         url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(location) + '.json?access_token=pk.eyJ1IjoiYWJoaXNoZWstMzEiLCJhIjoiY2p0bXBqcThlMHBsYTQ0cGY1MzN1dXczciJ9.uVuHWuBdm64VGWoLoaJ4Eg&limit=1', json: true
     }, (error, {body}={}) => {
             if (error) {
-                callback('Unable to connect to location services!', undefined)
+                callback('Unable to connect to location services!',     undefined)
             } else if (body.features.length === 0) {
                 callback('Unable to find location. Try another search.', undefined)
             } else {
