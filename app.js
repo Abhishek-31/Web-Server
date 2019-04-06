@@ -5,6 +5,7 @@ const geocode=require('./utils/geocode')
 const forecast=require('./utils/forecast')
 
 const app=express()
+const port=process.env.PORT || 3000
 console.log(__dirname) // Helps to give the directoy info where app.js is present. It is present as a parameter to a function that is used to wrap our node.js functionalities.
 
 
@@ -104,8 +105,8 @@ app.get('*',(req,res)=>{
     res.send("No webpage found")
 })
 //Actually it checks for the webpages and thr routes in sequence and it begins from public folder, it is not found and then later it checks in one by one and as soon as any route is dound then it does not checks for further for the same route.
-app.listen(3000,()=>{
-    console.log("My first server is functioning")
+app.listen(port,()=>{
+    console.log("My first server is functioning at port "+ port)
 }) //We can use multiple listens on app but that is obviously of no use.
 
 // In the request we have query through which we can get whatever is written in after ? which tells the queries in the url.

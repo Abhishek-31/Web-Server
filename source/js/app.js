@@ -12,7 +12,7 @@ weatherform.addEventListener('submit',(e)=>{
     const location=search.value
         check.textContent="Loading!!"
         check2.textContent=" "
-    fetch('http://localhost:3000/weather?address='+location).then((resp) => {
+    fetch('/weather?address='+location).then((resp) => {
     resp.json().then((data) => {
             if (data.error)
                 check.textContent=data.error
